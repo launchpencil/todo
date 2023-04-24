@@ -28,7 +28,7 @@ const server = http.createServer((req, res) => {
         return;
       }
   
-      const sql = "INSERT INTO ?? (name, date) VALUES (??, ?);";
+      const sql = "INSERT INTO ?? (name, date) VALUES (?, ?);";
       const params = [username, taskname, date];
   
       connection.query(sql, params, (err, results, fields) => {
