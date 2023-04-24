@@ -18,7 +18,7 @@ const server = http.createServer((req, res) => {
 
   if (req.url.startsWith('/todo/add')) {
     const taskname = queryObject.name;
-    data = queryObject.date;
+    date = queryObject.date;
 
     
     connection.connect((err) => {
