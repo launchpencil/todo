@@ -63,7 +63,7 @@ const server = http.createServer((req, res) => {
           }
   
           results.forEach((row) => {
-            res.write(`${row.name}(${row.date}),`);
+            res.write(`${row.name}(${formatDateWithoutYear(row.date)}),`);
           });
   
           connection.end();
@@ -76,3 +76,32 @@ const server = http.createServer((req, res) => {
 server.listen(3000, () => {
   console.log('Server running on port 3000');
 });
+
+function formatDateWithoutYear(dateString) {
+  // 入力された日付のインスタンスを生成
+  const date = new Date(dateString);
+
+  // 月の配列（0-indexed）
+  const months = [
+    "1月",
+    "2月",
+    "3月",
+    "4月",
+    "5月",
+    "6月",
+    "7月",
+    "8月",
+    "9月",
+    "10月",
+    "11月",
+    "12月"
+  ];
+
+  // 日付、曜日、月のインデックスを取得
+  const day = date.getDate();
+  const dayOfWeek = date.toLocaleDateString("ja-JP", { weekday: "short" });
+  const month = months[date.getMonth()];
+
+  // 結果を返す
+  return `${month}${day}(${dayOfWeek})`;
+}
