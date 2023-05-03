@@ -1,0 +1,3 @@
+USE todo;
+DELETE FROM `1-4` WHERE date < CURDATE();
+DELETE FROM `1-8` WHERE date < CURDATE();
