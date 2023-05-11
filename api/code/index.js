@@ -53,7 +53,7 @@ const server = http.createServer((req, res) => {
         return;
       }
   
-      const sql = "SELECT * FROM ?? ORDER BY date ASC";
+      const sql = "SELECT * FROM table_name WHERE date >= CURRENT_DATE() ORDER BY date ASC;";
   
       connection.query(sql, [username], (err, results, fields) => {
           if (err) {
