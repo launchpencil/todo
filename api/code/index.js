@@ -88,7 +88,7 @@ const server = http.createServer((req, res) => {
           }
   
           results.forEach((row) => {
-            res.write(`${row.name}(${formatDateWithoutYear(row.date)}),`);
+            res.write(`${row.name},`);
           });
   
           connection.end();
