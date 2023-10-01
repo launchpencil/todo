@@ -45,6 +45,31 @@ const server = http.createServer((req, res) => {
       });
     });
 
+  } else if(req.url.startsWith('/todo/today')) {
+    connection.connect((err) => {
+      if (err) {
+        console.error('error connecting: ' + err.message);
+        res.end('エラー,' + err.message);
+        return;
+      }
+  
+      const sql = "SELECT * FROM your_table_name WHERE date >= CURDATE() ORDER BY date ASC;";
+  
+      connection.query(sql, [username], (err, results, fields) => {
+          if (err) {
+              console.error('error querying: ' + err.stack);
+              res.write('エラー,' + err.message);
+              return;
+          }
+  
+          results.forEach((row) => {
+            res.write(`${row.name}(${formatDateWithoutYear(row.date)}),`);
+          });
+  
+          connection.end();
+          res.end();
+      });
+    });
   } else {
     connection.connect((err) => {
       if (err) {
