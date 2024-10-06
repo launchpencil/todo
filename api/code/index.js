@@ -92,7 +92,34 @@ const server = http.createServer((req, res) => {
               return;
           }
 
-          res.write('タスク：' + taskname + 'を更新しました。（締切日：' + date + '）');
+          res.write('タスク：' + taskname + 'を更新しました。（締切日：' + newdate + '）');
+          
+  
+          connection.end();
+          res.end();
+      });
+    });
+  } else if (req.url.startsWith('/todo/del')) {
+    let taskname = queryObject.name;
+    let date = queryObject.date;
+
+    connection.connect((err) => {
+      if (err) {
+        console.error('error connecting: ' + err.message);
+        res.end('エラー,' + err.message);
+        return;
+      }
+  
+      const sql = "UPDATE ?? SET date = 2007-04-05 WHERE name = ? AND date = ?;";
+  
+      connection.query(sql, [username, taskname, date], (err, results, fields) => {
+          if (err) {
+              console.error('error querying: ' + err.stack);
+              res.write('エラー,' + err.message);
+              return;
+          }
+
+          res.write('タスク：' + taskname + 'を削除しました。');
           
   
           connection.end();
