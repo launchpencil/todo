@@ -17,8 +17,8 @@ const server = http.createServer((req, res) => {
   });
 
   if (req.url.startsWith('/todo/add')) {
-    const taskname = queryObject.name;
-    date = queryObject.date;
+    let taskname = queryObject.name;
+    let date = queryObject.date;
 
     
     connection.connect((err) => {
@@ -65,6 +65,35 @@ const server = http.createServer((req, res) => {
           results.forEach((row) => {
             res.write(`${row.name},`);
           });
+  
+          connection.end();
+          res.end();
+      });
+    });
+  } else if (req.url.startsWith('/todo/update')) {
+    let taskname = queryObject.name;
+    let newname = queryObject.newname;
+    let date = queryObject.date;
+    let newdate = queryObject.newdate;
+
+    connection.connect((err) => {
+      if (err) {
+        console.error('error connecting: ' + err.message);
+        res.end('エラー,' + err.message);
+        return;
+      }
+  
+      const sql = "UPDATE ?? SET name = ?, date = ? WHERE name = ? AND date = ?;";
+  
+      connection.query(sql, [username, newname, newdate, taskname, date], (err, results, fields) => {
+          if (err) {
+              console.error('error querying: ' + err.stack);
+              res.write('エラー,' + err.message);
+              return;
+          }
+
+          res.write('タスク：' + taskname + 'を更新しました。（締切日：' + date + '）');
+          
   
           connection.end();
           res.end();
