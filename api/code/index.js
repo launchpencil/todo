@@ -110,7 +110,7 @@ const server = http.createServer((req, res) => {
         return;
       }
   
-      const sql = "UPDATE ?? SET date = 2007-04-05 WHERE name = ? AND date = ?;";
+      const sql = "UPDATE ?? SET date = '2007-04-05' WHERE name = ? AND date = ?;";
   
       connection.query(sql, [username, taskname, date], (err, results, fields) => {
           if (err) {
